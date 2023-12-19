@@ -1,0 +1,3 @@
+"Reference" "Virus" "Distribution" "Mean incubation" "95th percentile"
+"1" "Xia et al. 2020" "SARS-CoV-2" "Weibull" "4.9 (4.4-5.4)" "9.9 (8.9-11.2)"
+"2" "EpiLPS" "SARS-CoV-2" "Weibull" "4.5 (4.2-4.9)" "10.5 (9.8-11.4)"

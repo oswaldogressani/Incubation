@@ -1,0 +1,27 @@
+---
+title: "Flexible Bayesian estimation of incubation times"
+output: github_document
+author: Oswaldo Gressani
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Reproducibility instructions
+
+This repository contains all the routines required to reproduce the results in the paper entitled “Flexible Bayesian estimation on incubation times”. It has two main folders (**01-Simulations** and **02-RealData**). 
+
+- **01-Simulations** contains simulation results of the main manuscript as well as additional results for validating the model.
+
+- **02-RealData** contains results related to real data applications.
+
+Results are obtained with version 1.2.0 of the EpiLPS package [https://cran.r-project.org/package=EpiLPS](https://cran.r-project.org/package=EpiLPS). See also [https://epilps.com/](https://epilps.com/) for the associated website and vignettes.
+
+
+### Repository version
+This is version 0.1.0 (2023-12-19) - “IncubLPS-V2”.
+
+### License
+Copyright © Oswaldo Gressani. All rights reserved.
