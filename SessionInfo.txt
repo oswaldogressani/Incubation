@@ -1,0 +1,37 @@
+R version 4.3.2 (2023-10-31 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 11 x64 (build 22631)
+
+Matrix products: default
+
+
+locale:
+[1] LC_COLLATE=English_Europe.utf8  LC_CTYPE=English_Europe.utf8    LC_MONETARY=English_Europe.utf8
+[4] LC_NUMERIC=C                    LC_TIME=English_Europe.utf8    
+
+time zone: Europe/Paris
+tzcode source: internal
+
+attached base packages:
+stats
+graphics
+grDevices
+utils
+datasets
+methods
+base     
+
+other attached packages:
+lubridate_1.9.3 
+forcats_1.0.0   
+stringr_1.5.1   
+dplyr_1.1.4     
+purrr_1.0.2     
+readr_2.1.5    
+tidyr_1.3.0 
+tibble_3.2.1
+ggplot2_3.4.4
+tidyverse_2.0.0 
+xlsx_0.6.5
+EpiLPS_1.2.0   
+

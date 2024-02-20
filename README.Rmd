@@ -17,11 +17,22 @@ This repository contains all the routines required to reproduce the results in t
 
 - **02-RealData** contains results related to real data applications.
 
-Results are obtained with version 1.2.0 of the EpiLPS package [https://cran.r-project.org/package=EpiLPS](https://cran.r-project.org/package=EpiLPS). See also [https://epilps.com/](https://epilps.com/) for the associated website and vignettes.
+### Simulation environment
 
+Simulations and applications to real data were implemented in the following environment:
+
+- Windows 11 Pro (64-bit OS) with Intel Xeon W-2255 CPU @3.70GHz and 32GB of RAM.
+- R version 4.3.2 (2023-10-31 ucrt) -- "Eye Holes" x86_64-w64-mingw32/x64 (64-bit).
+- EpiLPS package version 1.2.0 [https://cran.r-project.org/package=EpiLPS](https://cran.r-project.org/package=EpiLPS). 
+- See SessionInfo.txt file to see a detailed session information provided by utils::sessionInfo().
+
+Readers and users are encouraged to reproduce the results contained in this folder. 
+
+### Website
+[https://epilps.com/](https://epilps.com/)
 
 ### Repository version
-This is version 0.1.0 (2023-12-19) - “IncubLPS-V2”.
+This is version 0.2.0 (2024-02-20) - “IncubLPS-V3”.
 
 ### License
 Copyright © Oswaldo Gressani. All rights reserved.
