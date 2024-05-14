@@ -28,11 +28,12 @@ for(i in 1:n){
 }
 
 data <- data.frame(tL = tL, tR = tR)
-write.xlsx(round(data,3), file = "DatasetsContinuous/Cauchemez_continuous.xls")
+write.xlsx(round(data,3), file = "Cauchemez_continuous.xls")
 
 # Fit incubation density with EpiLPS
 incubfit <- EpiLPS::estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
-                       tmax = 14)
+                               tmax = 20)
+
 incubfit$mcmcrate
 plot(incubfit$tg, incubfit$ftg, type = "l", col = "blue")
 rug(c(data$tL,data$tR))
@@ -60,7 +61,7 @@ round(qlnorm(p = 0.95, meanlog = meanlog, sdlog = sdlog),1)
 df2  <- data.frame("Reference","Virus","Distibution","Mean incubation","95th percentile")
 df2[1,] <- c("Cauchemez et al. 2014","MERS","LogNormal",
              "5.5 (3.6-10.2)","10.2 (NA)")
-df2[2,] <- c("EpiLPS", "MERS", "Flexible parametric",
+df2[2,] <- c("EpiLPS", "MERS", "LogNormal",
              paste0(round(incubfit$stats[1,1],1), " (",
                     round(incubfit$stats[1,4],1), "-",
                     round(incubfit$stats[1,5],1), ")"),
@@ -82,7 +83,8 @@ incub <- ggplot2::ggplot(data = dataseg, ggplot2::aes(x=index)) +
                           linewidth = 1) +
   ggplot2::scale_x_continuous(name = "Individual index number",
                               limits = c(0,8)) +
-  ggplot2::ylab("Incubation bound") +
+  ggplot2::scale_y_continuous(name="Incubation bound",
+                              limits = c(0,15)) +
   ggplot2::theme_classic() +
   ggplot2::theme(
     axis.title.x = ggplot2::element_text(size = 14),
@@ -111,7 +113,7 @@ densplot <-
                      color = "dodgerblue2", linewidth = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::scale_x_continuous(name = "Incubation period (days)",
-                              breaks = c(0,2,4,6,8,10,12,14)) +
+                              breaks = c(0,5,10,15,20)) +
   ggplot2::theme(
     axis.title.x = ggplot2::element_text(size = 14),
     axis.title.y = ggplot2::element_text(size = 14),
@@ -120,7 +122,6 @@ densplot <-
     legend.text = ggplot2::element_text(size = 9)
   )
 
-densplot
 
 # Plot cdf + 95%CI---------------------------------------------
 
@@ -146,7 +147,7 @@ cdfplot <-
                      color = "brown3", linewidth = 0.8) +
   ggplot2::theme_classic() +
   ggplot2::scale_x_continuous(name = "Incubation period (days)",
-                              breaks = c(0,2,4,6,8,10,12,14)) +
+                              breaks = c(0,5,10,15,20)) +
   ggplot2::theme(
     axis.title.x = ggplot2::element_text(size = 14),
     axis.title.y = ggplot2::element_text(size = 14),
@@ -155,11 +156,23 @@ cdfplot <-
     legend.text = ggplot2::element_text(size = 9)
   )
 
-cdfplot
+# Extract plots
+pdf(file = "Cauchemez_Ibounds.pdf", width = 8, height = 4)
+suppressWarnings(incub)
+dev.off()
+
+pdf(file = "Cauchemez_pdf.pdf", width = 8, height = 4)
+suppressWarnings(densplot)
+dev.off()
+
+pdf(file = "Cauchemez_cdf.pdf", width = 8, height = 4)
+suppressWarnings(cdfplot)
+dev.off()
 
 svg(file = "EpiLPS_Cauchemez.svg",width = 13, height = 4.5)
 gridExtra::grid.arrange(incub, densplot, cdfplot, nrow = 1, ncol = 3)
 dev.off()
+
 
 df2
 

@@ -10,7 +10,7 @@ library("xlsx")
 library("EpiLPS")
 
 ## Load Data
-data <- read.csv("Datasets/Mpox.csv")
+data <- read.csv("Mpox.csv")
 n <- nrow(data)
 
 tEL <- data$Start.date.of.exposure
@@ -50,7 +50,7 @@ C3 <- sum(datacts$tSO > datacts$tER) == nsub
 if(C1 & C2 & C3){
   print("Data ok. All constraints satisfied.")
 }
-write.xlsx(round(datacts,3), file = "DatasetsContinuous/Miura_continuous.xls")
+write.xlsx(round(datacts,3), file = "Miura_continuous.xls")
 
 # Fit with EpiLPS
 
@@ -165,11 +165,25 @@ cdfplot <-
 
 cdfplot
 
+# Extract plots
+pdf(file = "Miura_Ibounds.pdf", width = 8, height = 4)
+suppressWarnings(incub)
+dev.off()
+
+pdf(file = "Miura_pdf.pdf", width = 8, height = 4)
+suppressWarnings(densplot)
+dev.off()
+
+pdf(file = "Miura_cdf.pdf", width = 8, height = 4)
+suppressWarnings(cdfplot)
+dev.off()
+
 svg(file = "EpiLPS_Miura.svg",width = 13, height = 4.5)
 gridExtra::grid.arrange(incub, densplot, cdfplot, nrow = 1, ncol = 3)
 dev.off()
 
 df2
+
 
 
 

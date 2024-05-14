@@ -8,7 +8,7 @@ library("xlsx")
 library(tidyverse)
 
 # Code snippet from Backer et al. 2020
-dataraw <- read_tsv(file = "Datasets/Backer_dataset.tsv")
+dataraw <- read_tsv(file = "Backer_dataset.tsv")
 
 dataraw <- dataraw %>% 
   mutate(tReport = as.integer((`reporting date` %>% as.Date(format = "%m/%d/%Y")) - as.Date("2019-12-31")),
@@ -67,7 +67,7 @@ C3 <- sum(datacts$tSO > datacts$tER) == nsub
 if(C1 & C2 & C3){
   print("Data ok. All constraints satisfied.")
 }
-write.xlsx(round(datacts,3), file = "DatasetsContinuous/Backer_continuous.xls")
+write.xlsx(round(datacts,3), file = "Backer_continuous.xls")
 
 # Fit incubation density with EpiLPS
 incubfit <- EpiLPS::estimIncub(x = data, K = 20, niter = 20000, verbose = TRUE,
@@ -77,7 +77,7 @@ incubfit$mcmcrate
 df  <- data.frame("Reference","Virus","Distibution","Mean incubation","95th percentile")
 df[1,] <- c("Backer et al. 2020","SARS-CoV-2","Lognormal",
             "4.5 (3.7-5.6)","8.0 (6.3-11.8)")
-df[2,] <- c("EpiLPS", "SARS-CoV-2", "Gamma",
+df[2,] <- c("EpiLPS", "SARS-CoV-2", "LogNormal",
             paste0(round(incubfit$stats[1,1],1), " (",
                    round(incubfit$stats[1,4],1), "-",
                    round(incubfit$stats[1,5],1), ")"),
@@ -138,7 +138,6 @@ densplot <-
     legend.text = ggplot2::element_text(size = 9)
   )
 
-densplot
 
 # Plot cdf + 95%CI---------------------------------------------
 
@@ -173,7 +172,18 @@ cdfplot <-
     legend.text = ggplot2::element_text(size = 9)
   )
 
-cdfplot
+# Extract plots
+pdf(file = "Backer_Ibounds.pdf", width = 8, height = 4)
+suppressWarnings(incub)
+dev.off()
+
+pdf(file = "Backer_pdf.pdf", width = 8, height = 4)
+suppressWarnings(densplot)
+dev.off()
+
+pdf(file = "Backer_cdf.pdf", width = 8, height = 4)
+suppressWarnings(cdfplot)
+dev.off()
 
 svg(file = "EpiLPS_Backer.svg",width = 13, height = 4.5)
 gridExtra::grid.arrange(incub, densplot, cdfplot, nrow = 1, ncol = 3)

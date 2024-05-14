@@ -33,5 +33,5 @@ tibble_3.2.1
 ggplot2_3.4.4
 tidyverse_2.0.0 
 xlsx_0.6.5
-EpiLPS_1.2.0   
+EpiLPS_1.3.0   
 

@@ -10,7 +10,7 @@ library("xlsx")
 library("EpiLPS")
 
 ## Load Data
-data <- read.xlsx("Datasets/Hart_dataset.xlsx", sheetIndex = 1)
+data <- read.xlsx("Hart_dataset.xlsx", sheetIndex = 1)
 n <- nrow(data)
 
 E1L <- data$t_i1.L # Left bound for the day on which infector was infected
@@ -25,6 +25,7 @@ SO2 <- data$t_s2   # Day of symptom onset for infectee
 
 E1R[which(E1R > SO1)] <- SO1[which(E1R > SO1)]
 E2R[which(E2R > SO2)] <- SO2[which(E2R > SO2)]
+
 
 # Making data continuous
 datacts1 <- matrix(0, nrow = n, ncol = 6)
@@ -72,11 +73,10 @@ for(i in 1:n){
   datacts2[i, ] <- c(tE2L_temp, tE2R_temp, expowindow2[i], tSO2_temp, t2L[i], t2R[i])
 }
 
-windowbound <- 8
-df <- cbind(c(t1L, t2L[-which(expowindow2 > windowbound)]),
-            c(t1R, t2R[-which(expowindow2 > windowbound)]))
 
-datacts <- rbind(datacts1, datacts2[-which(expowindow2 > windowbound),])
+df <- cbind(c(t1L, t2L), c(t1R, t2R))
+
+datacts <- rbind(datacts1, datacts2)
 
 # df <- cbind(c(t1L, t2L), c(t1R, t2R))
 colnames(df) <- c("tL","tR")
@@ -96,11 +96,10 @@ C3 <- sum(datacts$tSO > datacts$tER) == nsub
 if(C1 & C2 & C3){
   print("Data ok. All constraints satisfied.")
 }
-write.xlsx(round(datacts,3), file = "DatasetsContinuous/Hart_continuous.xls")
 
 # Fit incubation density with EpiLPS
 incubfit <- EpiLPS::estimIncub(x = df, K = 20, niter = 20000, verbose = TRUE,
-                       tmax = 20)
+                       tmax = 23)
 incubfit$mcmcrate
 plot(incubfit$tg, incubfit$ftg, type = "l", col = "blue")
 rug(c(df$tL,df$tR))
@@ -120,20 +119,20 @@ df2[2,] <- c("EpiLPS", "SARS-CoV-2", "Weibull",
                    round(incubfit$stats[21,5],1), ")")
 )
 colnames(df2) <- c("Reference","Virus","Distribution","Mean incubation","95th percentile")
+df2
 
-write.table(df2, file = "EpiLPS_Hart.txt")
+write.table(df2, file = "EpiLPS_Hart_wideExpo.txt")
 
 # Plot  incubation bounds
 
-dataseg <- cbind(seq_len(74), df)
+dataseg <- cbind(seq_len(nrow(df)), df)
 colnames(dataseg) <- c("index","lower","upper")
 
 incub <- ggplot2::ggplot(data = dataseg, ggplot2::aes(x=index)) +
   ggplot2::geom_linerange(ggplot2::aes(ymin = lower, ymax = upper), 
                           color = "darkslateblue",
                           linewidth = 1) +
-  ggplot2::scale_x_continuous(name = "Individual index number",
-                              limits = c(0,80)) +
+  ggplot2::xlab("Individual index number") +
   ggplot2::ylab("Incubation bound") +
   ggplot2::theme_classic() +
   ggplot2::theme(
@@ -209,11 +208,10 @@ cdfplot <-
 
 cdfplot
 
-svg(file = "EpiLPS_Hart.svg",width = 13, height = 4.5)
 gridExtra::grid.arrange(incub, densplot, cdfplot, nrow = 1, ncol = 3)
-dev.off()
 
-df2
+
+
 
 
 

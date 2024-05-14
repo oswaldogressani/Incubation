@@ -21,9 +21,9 @@ following environment:
 
 - Windows 11 Pro (64-bit OS) with Intel Xeon W-2255 CPU @3.70GHz and
   32GB of RAM.
-- R version 4.3.2 (2023-10-31 ucrt) – “Eye Holes” x86_64-w64-mingw32/x64
-  (64-bit).
-- EpiLPS package version 1.2.0
+- R version 4.3.3 (2024-02-29 ucrt) – “Angel Food Cake”
+  x86_64-w64-mingw32/x64 (64-bit).
+- EpiLPS package version 1.3.0
   <https://cran.r-project.org/package=EpiLPS>.
 - See SessionInfo.txt file to see a detailed session information
   provided by utils::sessionInfo().
@@ -37,7 +37,7 @@ this folder.
 
 ### Repository version
 
-This is version 0.2.0 (2024-02-20) - “IncubLPS-V3”.
+This is version 0.3.0 (2024-05-14) - “IncubLPS-V4”.
 
 ### License
 
